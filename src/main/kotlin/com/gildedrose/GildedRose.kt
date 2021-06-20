@@ -4,9 +4,9 @@ class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
-            if (item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert") {
+            if (item.name != NAME_AGED_BRIE && item.name != NAME_BACKSTAGE_PASSES) {
                 if (item.quality > 0) {
-                    if (item.name != "Sulfuras, Hand of Ragnaros") {
+                    if (item.name != NAME_SULFURAS) {
                         item.quality = item.quality - 1
                     }
                 }
@@ -14,7 +14,7 @@ class GildedRose(var items: Array<Item>) {
                 if (item.quality < 50) {
                     item.quality = item.quality + 1
 
-                    if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
+                    if (item.name == NAME_BACKSTAGE_PASSES) {
                         if (item.sellIn < 11) {
                             if (item.quality < 50) {
                                 item.quality = item.quality + 1
@@ -30,15 +30,15 @@ class GildedRose(var items: Array<Item>) {
                 }
             }
 
-            if (item.name != "Sulfuras, Hand of Ragnaros") {
+            if (item.name != NAME_SULFURAS) {
                 item.sellIn = item.sellIn - 1
             }
 
             if (item.sellIn < 0) {
-                if (item.name != "Aged Brie") {
-                    if (item.name != "Backstage passes to a TAFKAL80ETC concert") {
+                if (item.name != NAME_AGED_BRIE) {
+                    if (item.name != NAME_BACKSTAGE_PASSES) {
                         if (item.quality > 0) {
-                            if (item.name != "Sulfuras, Hand of Ragnaros") {
+                            if (item.name != NAME_SULFURAS) {
                                 item.quality = item.quality - 1
                             }
                         }
@@ -52,6 +52,12 @@ class GildedRose(var items: Array<Item>) {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val NAME_AGED_BRIE = "Aged Brie"
+        private const val NAME_BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
+        private const val NAME_SULFURAS = "Sulfuras, Hand of Ragnaros"
     }
 
 }
