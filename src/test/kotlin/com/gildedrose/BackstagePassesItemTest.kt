@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 internal class BackstagePassesItemTest {
 
     @Test
-    fun `sellIn이 0보다 크고 6보다 작으면 quality가 3 증가한다`() {
+    fun `updateQuality 호출 시 sellIn이 0보다 크고 6보다 작으면 quality가 3 증가한다`() {
         // given
         val item = Item("Backstage passes to a TAFKAL80ETC concert", 1, 6)
         val items = arrayOf(item)
@@ -20,7 +20,7 @@ internal class BackstagePassesItemTest {
     }
 
     @Test
-    fun `sellIn이 6보다 크고 11다 작으면 quality가 2 증가한다`() {
+    fun `updateQuality 호출 시 sellIn이 6보다 크고 11다 작으면 quality가 2 증가한다`() {
         // given
         val item = Item("Backstage passes to a TAFKAL80ETC concert", 8, 6)
         val items = arrayOf(item)
@@ -34,7 +34,7 @@ internal class BackstagePassesItemTest {
     }
 
     @Test
-    fun `sellIn이 11보다 크고 50보다 작으면 quality가 1 증가한다`() {
+    fun `updateQuality 호출 시 sellIn이 11보다 크고 50보다 작으면 quality가 1 증가한다`() {
         // given
         val item = Item("Backstage passes to a TAFKAL80ETC concert", 14, 6)
         val items = arrayOf(item)
@@ -48,7 +48,7 @@ internal class BackstagePassesItemTest {
     }
 
     @Test
-    fun `sellIn이 0이면 quality가 0이 된다`() {
+    fun `updateQuality 호출 시 sellIn이 0이면 quality가 0이 된다`() {
         // given
         val item = Item("Backstage passes to a TAFKAL80ETC concert", 0, 6)
         val items = arrayOf(item)
@@ -62,7 +62,7 @@ internal class BackstagePassesItemTest {
     }
 
     @Test
-    fun `sellIn이 0보다 작으면 quality가 0이 된다`() {
+    fun `updateQuality 호출 시 sellIn이 0보다 작으면 quality가 0이 된다`() {
         // given
         val item = Item("Backstage passes to a TAFKAL80ETC concert", -1, 6)
         val items = arrayOf(item)
@@ -73,6 +73,20 @@ internal class BackstagePassesItemTest {
 
         // then
         assertEquals(0, item.quality)
+    }
+
+    @Test
+    fun `updateQuality 호출 시 sellIn이 1 감소한다`() {
+        // given
+        val item = Item("Backstage passes to a TAFKAL80ETC concert", 1, 6)
+        val items = arrayOf(item)
+        val app = GildedRose(items)
+
+        // when
+        app.updateQuality()
+
+        // then
+        assertEquals(0, item.sellIn)
     }
 }
 

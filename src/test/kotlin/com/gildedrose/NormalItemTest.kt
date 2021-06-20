@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 internal class NormalItemTest {
 
     @Test
-    fun `sellIn이 0보다 크면 quality가 1 감소한다`() {
+    fun `updateQuality 호출 시 sellIn이 0보다 크면 quality가 1 감소한다`() {
         // given
         val name = "normal"
         val item = Item(name, 1, 6)
@@ -21,7 +21,7 @@ internal class NormalItemTest {
     }
 
     @Test
-    fun `sellIn이 0이면 quality가 2 감소한다`() {
+    fun `updateQuality 호출 시 sellIn이 0이면 quality가 2 감소한다`() {
         // given
         val name = "normal"
         val item = Item(name, 0, 6)
@@ -36,7 +36,7 @@ internal class NormalItemTest {
     }
 
     @Test
-    fun `sellIn이 0보다 작으면 quality가 2 감소한다`() {
+    fun `updateQuality 호출 시 sellIn이 0보다 작으면 quality가 2 감소한다`() {
         // given
         val name = "normal"
         val item = Item(name, -1, 6)
@@ -51,7 +51,7 @@ internal class NormalItemTest {
     }
 
     @Test
-    fun `quality가 0이면 quality가 감소하지 않는다`() {
+    fun `updateQuality 호출 시 quality가 0이면 quality가 감소하지 않는다`() {
         // given
         val name = "normal"
         val item = Item(name, 5, 0)
@@ -63,6 +63,20 @@ internal class NormalItemTest {
 
         // then
         assertEquals(0, item.quality)
+    }
+
+    @Test
+    fun `updateQuality 호출 시 sellIn이 1 감소한다`() {
+        // given
+        val item = Item("normal", 1, 6)
+        val items = arrayOf(item)
+        val app = GildedRose(items)
+
+        // when
+        app.updateQuality()
+
+        // then
+        assertEquals(0, item.sellIn)
     }
 }
 
