@@ -4,13 +4,7 @@ class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
-            if (item.name != NAME_AGED_BRIE && item.name != NAME_BACKSTAGE_PASSES) {
-                if (item.quality > 0) {
-                    if (item.name != NAME_SULFURAS) {
-                        item.quality = item.quality - 1
-                    }
-                }
-            } else {
+            if (item.name == NAME_AGED_BRIE || item.name == NAME_BACKSTAGE_PASSES) {
                 if (item.quality < 50) {
                     item.quality = item.quality + 1
 
@@ -28,26 +22,35 @@ class GildedRose(var items: Array<Item>) {
                         }
                     }
                 }
+            } else {
+                if (item.quality > 0) {
+                    if (item.name == NAME_SULFURAS) {
+                    } else {
+                        item.quality = item.quality - 1
+                    }
+                }
             }
 
-            if (item.name != NAME_SULFURAS) {
+            if (item.name == NAME_SULFURAS) {
+            } else {
                 item.sellIn = item.sellIn - 1
             }
 
             if (item.sellIn < 0) {
-                if (item.name != NAME_AGED_BRIE) {
-                    if (item.name != NAME_BACKSTAGE_PASSES) {
+                if (item.name == NAME_AGED_BRIE) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1
+                    }
+                } else {
+                    if (item.name == NAME_BACKSTAGE_PASSES) {
+                        item.quality = item.quality - item.quality
+                    } else {
                         if (item.quality > 0) {
-                            if (item.name != NAME_SULFURAS) {
+                            if (item.name == NAME_SULFURAS) {
+                            } else {
                                 item.quality = item.quality - 1
                             }
                         }
-                    } else {
-                        item.quality = item.quality - item.quality
-                    }
-                } else {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1
                     }
                 }
             }
