@@ -4,52 +4,75 @@ class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
-            if (item.name == NAME_AGED_BRIE) {
+            updateQuality(item)
+            decreaseSellIn(item)
+            updateQualityWhenSellOut(item)
+        }
+    }
+
+    private fun updateQuality(item: Item) {
+        when (item.name) {
+            NAME_AGED_BRIE -> {
                 if (item.quality < 50) {
                     item.quality = item.quality + 1
                 }
-            } else if (item.name == NAME_BACKSTAGE_PASSES) {
+            }
+            NAME_BACKSTAGE_PASSES -> {
                 if (item.quality < 50) {
                     item.quality = item.quality + 1
+                }
 
-                    if (item.sellIn < 11) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1
-                        }
-                    }
-
-                    if (item.sellIn < 6) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1
-                        }
+                if (item.sellIn < 11) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1
                     }
                 }
-            } else if (item.name == NAME_SULFURAS) {
 
-            } else {
+                if (item.sellIn < 6) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1
+                    }
+                }
+            }
+            NAME_SULFURAS -> {
+
+            }
+            else -> {
                 if (item.quality > 0) {
                     item.quality = item.quality - 1
                 }
             }
+        }
+    }
 
-            if (item.name == NAME_SULFURAS) {
-            } else {
+    private fun decreaseSellIn(item: Item) {
+        when (item.name) {
+            NAME_SULFURAS -> {
+            }
+            else -> {
                 item.sellIn = item.sellIn - 1
             }
+        }
+    }
 
-            if (item.name == NAME_AGED_BRIE) {
+    private fun updateQualityWhenSellOut(item: Item) {
+        when (item.name) {
+            NAME_AGED_BRIE -> {
                 if (item.sellIn < 0) {
                     if (item.quality < 50) {
                         item.quality = item.quality + 1
                     }
                 }
-            } else if (item.name == NAME_BACKSTAGE_PASSES) {
+            }
+            NAME_BACKSTAGE_PASSES -> {
                 if (item.sellIn < 0) {
 
                     item.quality = item.quality - item.quality
                 }
-            } else if (item.name == NAME_SULFURAS) {
-            } else {
+            }
+            NAME_SULFURAS -> {
+            }
+            else -> {
                 if (item.sellIn < 0) {
                     if (item.quality > 0) {
                         item.quality = item.quality - 1
