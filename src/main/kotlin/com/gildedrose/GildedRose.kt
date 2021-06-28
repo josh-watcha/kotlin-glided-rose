@@ -4,47 +4,33 @@ class GildedRose(private val items: Array<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
+            val originalSellIn = item.sellIn
+
             if (item.name != SULFURAS) {
                 item.decreaseItemSellIn(1)
             }
-            
+
+            val isNotRemainingSellIn = item.sellIn < 0
+
             when (item.name) {
                 AGED_BRIE -> {
-                    item.increaseItemQuality(1)
+                    val increaseQuality = if (isNotRemainingSellIn) 2 else 1
+                    item.increaseItemQuality(increaseQuality)
                 }
                 BACKSTAGE_PASSES_TICKET -> {
-                    val increaseQuality = when {
-                        item.sellIn < 6 -> 3
-                        item.sellIn < 11 -> 2
-                        else -> 1
+                    when {
+                        isNotRemainingSellIn -> item.resetQuality()
+                        originalSellIn < 6 -> item.increaseItemQuality(3)
+                        originalSellIn in 6..10 -> item.increaseItemQuality(2)
+                        else -> item.increaseItemQuality(1)
                     }
-
-                    item.increaseItemQuality(increaseQuality)
                 }
                 SULFURAS -> {
 
                 }
                 else -> {
-                    item.decreaseItemQuality(1)
-                }
-            }
-
-
-            val isNotRemainingSellIn = item.sellIn < 0
-            if (isNotRemainingSellIn) {
-                when (item.name) {
-                    AGED_BRIE -> {
-                        item.increaseItemQuality(1)
-                    }
-                    BACKSTAGE_PASSES_TICKET -> {
-                        item.resetQuality()
-                    }
-                    SULFURAS -> {
-
-                    }
-                    else -> {
-                        item.decreaseItemQuality(1)
-                    }
+                    val decreaseQuality = if (isNotRemainingSellIn) 2 else 1
+                    item.decreaseItemQuality(decreaseQuality)
                 }
             }
         }
