@@ -6,33 +6,23 @@ class GildedRose(private val items: Array<Item>) {
         items.forEach { item ->
             when (item.name) {
                 AGED_BRIE -> {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1
-                    }
+                    item.increaseItemQuality()
                 }
                 BACKSTAGE_PASSES_TICKET -> {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1
+                    item.increaseItemQuality()
 
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1
-                            }
-                        }
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1
-                            }
-                        }
+                    if (item.sellIn < 11) {
+                        item.increaseItemQuality()
+                    }
+                    if (item.sellIn < 6) {
+                        item.increaseItemQuality()
                     }
                 }
                 SULFURAS -> {
 
                 }
                 else -> {
-                    if (item.quality > 0) {
-                        item.quality = item.quality - 1
-                    }
+                    item.decreaseItemQuality()
                 }
             }
 
@@ -45,30 +35,27 @@ class GildedRose(private val items: Array<Item>) {
             if (item.sellIn < 0) {
                 when (item.name) {
                     AGED_BRIE -> {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1
-                        }
+                        item.increaseItemQuality()
                     }
                     BACKSTAGE_PASSES_TICKET -> {
-                        item.quality = item.quality - item.quality
+                        item.resetQuality()
                     }
                     SULFURAS -> {
 
                     }
                     else -> {
-                        if (item.quality > 0) {
-                            item.quality = item.quality - 1
-                        }
+                        item.decreaseItemQuality()
                     }
                 }
             }
         }
     }
 
+
     companion object {
-        private const val AGED_BRIE = "Aged Brie"
-        private const val BACKSTAGE_PASSES_TICKET = "Backstage passes to a TAFKAL80ETC concert"
-        private const val SULFURAS = "Sulfuras, Hand of Ragnaros"
+        const val AGED_BRIE = "Aged Brie"
+        const val BACKSTAGE_PASSES_TICKET = "Backstage passes to a TAFKAL80ETC concert"
+        const val SULFURAS = "Sulfuras, Hand of Ragnaros"
     }
 }
 
