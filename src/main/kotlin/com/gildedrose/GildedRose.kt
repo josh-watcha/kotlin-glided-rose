@@ -4,38 +4,37 @@ class GildedRose(private val items: Array<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
+            if (item.name != SULFURAS) {
+                item.decreaseItemSellIn(1)
+            }
+            
             when (item.name) {
                 AGED_BRIE -> {
-                    item.increaseItemQuality()
+                    item.increaseItemQuality(1)
                 }
                 BACKSTAGE_PASSES_TICKET -> {
-                    item.increaseItemQuality()
+                    val increaseQuality = when {
+                        item.sellIn < 6 -> 3
+                        item.sellIn < 11 -> 2
+                        else -> 1
+                    }
 
-                    if (item.sellIn < 11) {
-                        item.increaseItemQuality()
-                    }
-                    if (item.sellIn < 6) {
-                        item.increaseItemQuality()
-                    }
+                    item.increaseItemQuality(increaseQuality)
                 }
                 SULFURAS -> {
 
                 }
                 else -> {
-                    item.decreaseItemQuality()
+                    item.decreaseItemQuality(1)
                 }
             }
 
-            if (item.name == SULFURAS) {
 
-            } else {
-                item.sellIn = item.sellIn - 1
-            }
-
-            if (item.sellIn < 0) {
+            val isNotRemainingSellIn = item.sellIn < 0
+            if (isNotRemainingSellIn) {
                 when (item.name) {
                     AGED_BRIE -> {
-                        item.increaseItemQuality()
+                        item.increaseItemQuality(1)
                     }
                     BACKSTAGE_PASSES_TICKET -> {
                         item.resetQuality()
@@ -44,7 +43,7 @@ class GildedRose(private val items: Array<Item>) {
 
                     }
                     else -> {
-                        item.decreaseItemQuality()
+                        item.decreaseItemQuality(1)
                     }
                 }
             }
